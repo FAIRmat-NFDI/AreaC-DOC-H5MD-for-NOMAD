@@ -8,6 +8,8 @@ In order to effectively parse and normalize the molecular simulation data, the H
 
 * [boundary attribute changed to boolean datatype](../file_structure/particles.md#boundary_anchor)
 
+* [treatment of units](../units.md)
+
 ## Unused features
 
 * [modules in h5md metadata](../file_structure/h5md.md#modules-currently-unused-in-h5md-nomad)
