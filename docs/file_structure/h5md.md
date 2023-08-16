@@ -20,56 +20,56 @@ group as attributes. The contents of the group is:
     size 2, that contains the major version number and the minor version number
     of the H5MD specification the H5MD structure conforms to.
 
-    The version *x.y.z* of the H5MD specification follows
-    [semantic versioning][semver] [@semantic_versioning]: A change of the major
-    version number *x* indicates backwards-incompatible changes to the file
-    structure. A change of the minor version number *y* indicates
-    backwards-compatible changes to the file structure. A change of the patch
-    version number *z* indicates changes that have no effect on the file
-    structure and serves to allow for clarifications or minor text editing of
-    the specification.
+The version *x.y.z* of the H5MD specification follows
+[semantic versioning][semver] [@semantic_versioning]: A change of the major
+version number *x* indicates backwards-incompatible changes to the file
+structure. A change of the minor version number *y* indicates
+backwards-compatible changes to the file structure. A change of the patch
+version number *z* indicates changes that have no effect on the file
+structure and serves to allow for clarifications or minor text editing of
+the specification.
 
-    As the *z* component has no impact on the content of a H5MD file, the
-    `version` attribute contains only *x* and *y*.
+As the *z* component has no impact on the content of a H5MD file, the
+`version` attribute contains only *x* and *y*.
 
 `author`
 :   A group that contains metadata on the person responsible for the simulation
     (or the experiment) as follows:
 
-    `name`
-    :   An attribute, of fixed-length string datatype and of scalar
-        dataspace, that holds the author's real name.
+* `name`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that holds the author's real name.
 
-    `email`
-    :   An optional attribute, of fixed-length string datatype and
-        of scalar dataspace, that holds the author's email address of
-        the form `email@domain.tld`.
+* `email`
+:   An optional attribute, of fixed-length string datatype and
+    of scalar dataspace, that holds the author's email address of
+    the form `email@domain.tld`.
 
 `creator`
 :   A group that contains metadata on the program that created the H5MD
     structure as follows:
 
-    `name`
-    :   An attribute, of fixed-length string datatype and of scalar
-        dataspace, that stores the name of the program.
+* `name`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that stores the name of the program.
 
-    `version`
-    :   An attribute, of fixed-length string datatype and of scalar
-        dataspace, that yields the version of the program.
+* `version`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that yields the version of the program.
 
 `program`
 :   A group that contains metadata on the code/package that created the simulation data contained within this H5MD structure:
 
-    `name`
-    :   An attribute, of fixed-length string datatype and of scalar
-        dataspace, that stores the name of the program.
+* `name`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that stores the name of the program.
 
-    `version`
-    :   An attribute, of fixed-length string datatype and of scalar
-        dataspace, that yields the version of the program.
+* `version`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that yields the version of the program.
 
 
-### Modules (Not currently used in H5MD-NOMAD)
+### Modules **(currently unused in H5MD-NOMAD)**
 
 The original H5MD specification allowed the definition of modules under the h5md group.
 Such modules are currently ignored when uploading to NOMAD, although they of course will

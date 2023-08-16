@@ -114,7 +114,7 @@ depending on the dataset layout of `step`.
     `Float` or `Integer`-valued and contains the simulation time in physical units. The
     values of the dataset are in monotonically increasing order.
 
-### Fixed step and time storage (not currently supported in H5MD-NOMAD)
+### Fixed step and time storage **(currently not supported in H5MD-NOMAD)**
 
     <element>
      \-- step: Integer[]
@@ -201,7 +201,7 @@ of particles.
 If a *fill value* is defined, tuples with at least one entry set to this
 value are ignored.
 
-### Time-dependence (Time-dependent particle lists currently not supported in H5MD-NOMAD)
+### Time-dependence **(time-dependent particle lists currently not supported in H5MD-NOMAD)**
 
 As the lists of particles and tuples above are H5MD elements, they can be stored
 either as time-dependent groups or time-independent datasets.

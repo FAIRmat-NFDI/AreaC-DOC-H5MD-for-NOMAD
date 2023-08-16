@@ -4,7 +4,7 @@ Particle attributes, i.e., information about each particle in the system, are st
 According to the original H5MD schema, the `particles` group is a container for subgroups that
 represent different subsets of the system under consideration.
 For simplicity of parsing, H5MD-NOMAD currently requires one such group, labeled `all`, to contain all the particles and corresponding attributes to be stored in the NOMAD archive.
-Additional particle groups will be ignored.
+**Additional particle groups will be ignored**.
 
 For each dataset, the ordering of indices (whenever relevant) are as follows: frame index, particle index, dimension index.
 Thus, the contents of the `particles` group for a trajectory with `N_frames` frames and `N_part` particles in a `D`-dimensional space can be represented:
@@ -12,21 +12,21 @@ Thus, the contents of the `particles` group for a trajectory with `N_frames` fra
     particles
      \-- all
      |    \-- box
-     |    \-- (time-dependent_vector_attribute_name)
+     |    \-- (<time-dependent_vector_attribute>)
      |    |    \-- step: Integer[N_frames]
      |    |    \-- time: Float[N_frames]
      |    |    \-- value: <type>[N_frames][N_part][D]
-     |    \-- (time-dependent_scalar_attribute_name)
+     |    \-- (<time-dependent_scalar_attribute>)
      |    |    \-- step: Integer[N_frames]
      |    |    \-- time: Float[N_frames]
      |    |    \-- value: <type>[N_frames][N_part]
-     |    \-- (time-independent_vector_attribute_name): <type>[N_part][D]
-     |    \-- (time-independent_scalar_attribute_name): <type>[N_part]
+     |    \-- (<time-independent_vector_attribute>): <type>[N_part][D]
+     |    \-- (<time-independent_scalar_attribute>): <type>[N_part]
      |    \-- ...
      \-- <group2>
           \-- ...
 
-Standard H5MD elements for the particles group:
+## Standardized H5MD elements for particles group
 
 `position`
 :   An element that describes the particle positions as coordinate vectors of
@@ -39,12 +39,12 @@ absolute position in space. If the component $k$ of `box/boundary` is set to
 absolute position in space of an *arbitrary* periodic image of that particle. -->
 
 `image`
-:   An element that represents periodic images of the box as coordinate vectors
-    of `Float` or `Integer` type and allows one to compute for each particle its
-    absolute position in space. If `image` is present, `position` must be
-    present as well. For time-dependent data, the `step` and `time` datasets of
-    `image` must equal those of `position`, which must be accomplished by
-    hard-linking the respective datasets.
+:   <a id="image_anchor"></a>**(currently unused in H5MD-NOMAD)** An element that represents periodic images of the box as coordinate vectors
+of `Float` or `Integer` type and allows one to compute for each particle its
+absolute position in space. If `image` is present, `position` must be
+present as well. For time-dependent data, the `step` and `time` datasets of
+`image` must equal those of `position`, which must be accomplished by
+hard-linking the respective datasets.
 
 <!-- If the component $k$ of `box/boundary` (see [below](#simulation-box)) is set
 to `none`, the values of the corresponding component $k$ of `image` serve as
@@ -68,18 +68,18 @@ from `position`, $\vec a_i$ is taken from `image`, and $\vec L$ from
     type.
 
 `species`
-:   An element that describes the species for each particle, i.e., its
-    atomic or chemical identity, as a scalar of `Enumeration` or `Integer`
-    data type. Particles of the same species are assumed to be identical with
-    respect to their properties and unbonded interactions.
+:   **(currently unused in H5MD-NOMAD)** An element that describes the species for each particle, i.e., its
+atomic or chemical identity, as a scalar of `Enumeration` or `Integer`
+data type. Particles of the same species are assumed to be identical with
+respect to their properties and unbonded interactions.
 
 `id`
-:   An element that holds a scalar identifier for each particle of `Integer`
-    type, which is unique within the given particle subgroup. The `id` serves
-    to identify particles over the course of the simulation in the case when
-    the order of the particles changes, or when new particles are inserted and
-    removed. If `id` is absent, the identity of the particles is given by their
-    index in the `value` datasets of the elements within the same subgroup.
+:   **(currently unused in H5MD-NOMAD)** An element that holds a scalar identifier for each particle of `Integer`
+type, which is unique within the given particle subgroup. The `id` serves
+to identify particles over the course of the simulation in the case when
+the order of the particles changes, or when new particles are inserted and
+removed. If `id` is absent, the identity of the particles is given by their
+index in the `value` datasets of the elements within the same subgroup.
 
 <!-- A *fill value* (see
 [§ 6.6](http://www.hdfgroup.org/HDF5/doc/UG/11_Datatypes.html#Fvalues) in
@@ -109,22 +109,26 @@ definition in the PDBx/mmCIF dictionary
 If none of `effective` or `formal` describes the data properly, the
 attribute `type` may be omitted. -->
 
-## Simulation box
+## Standardized H5MD-NOMAD elements for particles group
 
-The specification of the simulation box is stored in the group `box`, which
-must be contained within each of the subgroups of the `particles` group.
-Storing the box information at several places reflects the fact that different
-subgroups may be sampled at different time grids. This way, the box information
-remains associated to a group of particles.  A specific requirement for `box`
-groups inside `particles` is that the `step` and `time` datasets exactly match
-those of the corresponding `position` groups, which must be accomplished by
-hard-linking the respective datasets.
+`species_label`
+:   <a id="species_label_anchor"></a> An element that holds a label (fixed-length string datatype) for each particle. This label denotes the fundamental species type of the particle (e.g., the chemical element label for atoms), regardless of its given interactions within the model. **Both** time-independent and time-dependent `species_label` elements are supported.
 
-The spatial dimension and the boundary conditions of the box are stored as
-attributes to the `box` group, e.g., :
+`model_label`
+:   An element that holds a label (fixed-length string datatype) for each particle. This label denotes the type of particle with respect to the given interactions within the model (e.g., force field) **Currently only time-independent species labels are supported.**
+
+## The simulation box subgroup
+
+Information about the simulation box is stored in a subgroup named `box`, within the relevant particles group (`all` in our case).
+**Both** time-independent and time-dependent box information are supported (i.e. via the `edges` element).
+Because the `box` group is specific to a particle group of particles, time-dependent boxes **must** contain `step` and `time` datasets that exactly match those of the corresponding `position` group.
+In principal, this should be accomplished by hard-linking the respective datasets.
+In practice, H5MD-NOMAD currently assumes that this is the case (i.e., **the box group `step` and `time` information is unused**), and simply checks that `edges.value` has the same leading dimension as `position`.
+
+The structure of the `box` group is as follows:
 
     particles
-     \-- <group1>
+     \-- all
           \-- box
                +-- dimension: Integer[]
                +-- boundary: String[D]
@@ -135,43 +139,27 @@ attributes to the `box` group, e.g., :
     and is of `Integer` datatype and scalar dataspace.
 
 `boundary`
-:   An attribute, of fixed-length string datatype and of simple dataspace of
-    rank 1 and size `D`, that specifies the boundary condition of the box along
-    each dimension. The values in `boundary` are either `periodic` or `none`:
+:   <a id="boundary_anchor"></a> An attribute, of boolean datatype (**changed from string to boolean in H5MD-NOMAD**) and of simple dataspace of rank 1 and size `D`, that specifies the boundary condition of the box along each dimension, i.e., `True` implies periodic boundaries are applied in the corresponding dimension. If all values in `boundary` are `False`, `edges` may be omitted.
 
-    `periodic` The simulation box is periodically continued along the given
-    dimension and serves as the unit cell for an infinite tiling of space.
-
-    `none` No boundary condition is imposed. This summarizes the situations of
-    open systems (i.e., an infinitely large box) and closed systems (e.g., due
-    to an impenetrable wall). For those components where `boundary` is set to
-    `none`, the corresponding values of `edges` serve as placeholders.
-
-Information on the geometry of the box edges is stored as an H5MD element,
+<!-- Information on the geometry of the box edges is stored as an H5MD element,
 allowing for the box to be fixed in time or not.  Supported box shapes are the
 cuboid and triclinic unit cell, for other shapes a transformation to the
-triclinic shape may be considered [@Bekker:1997]. If all values in `boundary`
-are `none`, `edges` may be omitted.
+triclinic shape may be considered [@Bekker:1997]. -->
 
 `edges`
 :   A `D`-dimensional vector or a `D` × `D` matrix, depending on the geometry
-    of the box, of `Float` or `Integer` type. If `edges` is a vector, it
-    specifies the space diagonal of a cuboid-shaped box. If `edges` is a
-    matrix, the box is of triclinic shape with the edge vectors given by the
-    rows of the matrix.
-
-    For a time-dependent box, a cuboid geometry is encoded by a dataset `value`
-    (within the H5MD element) of rank 2 (1 dimension for the time and 1 for the
-    vector) and a triclinic geometry by a dataset `value` of rank 3 (1
-    dimension for the time and 2 for the matrix).
-
-    For a time-independent box, a cuboid geometry is encoded by a dataset
-    `edges` of rank 1 and a triclinic geometry by a dataset of rank 2.
+of the box, of `Float` or `Integer` type. Only cuboid and triclinic boxes are allowed.
+If `edges` is a vector, it specifies the space diagonal of a cuboid-shaped box. If `edges` is a
+matrix, the box is of triclinic shape with the edge vectors given by the
+rows of the matrix. For a time-dependent box, a cuboid geometry is encoded by a dataset `value`
+(within the H5MD element) of rank 2 (1 dimension for the time and 1 for the
+vector) and a triclinic geometry by a dataset `value` of rank 3 (1
+dimension for the time and 2 for the matrix). For a time-independent box, a cuboid geometry is encoded by a dataset `edges` of rank 1 and a triclinic geometry by a dataset of rank 2.
 
 For instance, a cuboid box that changes in time would appear as:
 
     particles
-     \-- <group1>
+     \-- all
           \-- box
                +-- dimension: Integer[]
                +-- boundary: String[D]
@@ -184,10 +172,12 @@ where `dimension` is equal to `D`. A triclinic box that is fixed in time would
 appear as:
 
     particles
-     \-- <group1>
+     \-- all
           \-- box
                +-- dimension: Integer[]
                +-- boundary: String[D]
                \-- edges: <type>[D][D]
 
 where `dimension` is equal to `D`.
+
+<!-- TODO - double check that both shapes are supported in the parser! -->

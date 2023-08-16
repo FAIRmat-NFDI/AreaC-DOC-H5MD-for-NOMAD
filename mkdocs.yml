@@ -14,7 +14,7 @@ nav:
   - Units: units.md
   - References:
     - Quick Start - H5MD basics: references/quick_H5MD_basics.md
-    - Unused or Unsupported features: references/unsupported.md
+    - Notable changes from H5MD to H5MD-NOMAD: references/unsupported.md
 theme:
   name: material
   palette:
