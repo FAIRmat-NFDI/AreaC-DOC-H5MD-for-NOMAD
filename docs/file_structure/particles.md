@@ -29,14 +29,26 @@ Thus, the contents of the `particles` group for a trajectory with `N_frames` fra
 ## Standardized H5MD elements for particles group
 
 `position`
-:   An element that describes the particle positions as coordinate vectors of
-    `Float` or `Integer` type.
+:   **(required for parsing other particle attributes)** An element that describes the particle positions as coordinate vectors of `Float` or `Integer` type.
 
 <!-- If the component $k$ of `box/boundary` (see [below](#simulation-box)) is set
 to `none`, the data indicate for each particle the component $k$ of its
 absolute position in space. If the component $k$ of `box/boundary` is set to
 `periodic`, the data indicate for each particle the component $k$ of the
 absolute position in space of an *arbitrary* periodic image of that particle. -->
+
+`velocity`
+:   An element that contains the velocities for each particle as a vector of
+    `Float` or `Integer` type.
+
+`force`
+:   An element that contains the total forces (i.e., the accelerations
+    multiplied by the particle mass) for each particle as a vector of `Float`
+    or `Integer` type.
+
+`mass`
+:   An element that holds the mass for each particle as a scalar of `Float`
+    type.
 
 `image`
 :   <a id="image_anchor"></a>**(currently unused in H5MD-NOMAD)** An element that represents periodic images of the box as coordinate vectors
@@ -53,19 +65,6 @@ for a cuboid box, the component $k$ of the absolute position of particle $i$
 is computed as $R_{ik} = r_{ik} + L_k a_{ik}$, where $\vec r_i$ is taken
 from `position`, $\vec a_i$ is taken from `image`, and $\vec L$ from
 `box/edges`. -->
-
-`velocity`
-:   An element that contains the velocities for each particle as a vector of
-    `Float` or `Integer` type.
-
-`force`
-:   An element that contains the total forces (i.e., the accelerations
-    multiplied by the particle mass) for each particle as a vector of `Float`
-    or `Integer` type.
-
-`mass`
-:   An element that holds the mass for each particle as a scalar of `Float`
-    type.
 
 `species`
 :   **(currently unused in H5MD-NOMAD)** An element that describes the species for each particle, i.e., its
@@ -116,6 +115,11 @@ attribute `type` may be omitted. -->
 
 `model_label`
 :   An element that holds a label (fixed-length string datatype) for each particle. This label denotes the type of particle with respect to the given interactions within the model (e.g., force field) **Currently only time-independent species labels are supported.**
+
+## Non-standard elements in particles group
+
+**All non-standard elements within the particles group are currently igorned by the NOMAD H5MD parser.** In principle, one can store additional custom attributes as configuration-specific observables (see [The observables group](observables.md)).
+
 
 ## The simulation box subgroup
 

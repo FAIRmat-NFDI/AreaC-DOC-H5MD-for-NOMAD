@@ -1,4 +1,4 @@
-# Unsupport features in H5MD-NOMAD
+# Notable changes from H5MD to H5MD-NOMAD
 
 In order to effectively parse and normalize the molecular simulation data, the H5MD-NOMAD schema extends the original H5MD framework while also enforces various restrictions to the schema. This page contains a list of such additions and restrictions. Here we distinguish between "unused" features, i.e., metadata that will be ignored by NOMAD and "unsupported" features, i.e., structures that will likely cause an error if used within an H5MD-NOMAD file for upload to NOMAD.
 
@@ -18,6 +18,8 @@ In order to effectively parse and normalize the molecular simulation data, the H
 
 * [image, species, and id elements of particles group](../file_structure/particles.md#image_anchor)
 
+* [non-standard elements in particles group](../file_structure/particles.md#non-standard-elements-in-particles-group)
+
 ## Unsupported features
 
 * [fixed step and time storage](quick_H5MD_basics.md#fixed-step-and-time-storage-currently-not-supported-in-h5md-nomad)
@@ -25,4 +27,6 @@ In order to effectively parse and normalize the molecular simulation data, the H
 * [time-dependent particle lists](quick_H5MD_basics.md#time-dependence-time-dependent-particle-lists-currently-not-supported-in-h5md-nomad)
 
 * [time-dependent model labels for particles](../file_structure/particles.md#species_label_anchor)
+
+* [only partial support for grouping of observables by particle subgroups](../file_structure/observables.md#obs_para2)
 

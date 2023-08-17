@@ -12,4 +12,4 @@ Generic representation of unit storage in H5MD-NOMAD:
     <group>
         \-- <dataset>
             +-- (unit: String[])
-            +-- (unit_factor: Float[])
+            +-- (unit_factor: Float)
