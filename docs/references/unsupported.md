@@ -30,3 +30,5 @@ In order to effectively parse and normalize the molecular simulation data, the H
 
 * [only partial support for grouping of observables by particle subgroups](../file_structure/observables.md#obs_para2)
 
+* [time-dependent connectivity elements](../file_structure/connectivity.md#connectivity_support_anchor)
+

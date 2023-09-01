@@ -38,18 +38,22 @@ The observable type is provided as an attribute to the particular observable sub
 The following observable types are supported:
 
 `configurational`
-:   An observable that is computed for each individual configuration. This may also be used to store per-particle quantities, in which case value will have dimensions `[N_frames][N_part][M]`, where `M` is the dimension of the observable. The structure is given by:
+:   An observable that is computed for each individual configuration, with the following general structure:
 
     observables
      \-- <configurational_subgroup>
      |    +-- type: "configurational"
      |    \-- step: Integer[N_frames]
      |    \-- time: Float[N_frames]
-     |    \-- value: <type>[N_frames]
+     |    \-- value: <type>[N_frames][M]
      \-- ...
+ where `M` is the dimension of the observable. This section may also be used to store per-particle quantities/attributes that are not currently supported as [standardized H5MD-NOMAD elements for particles group](particles.md#standardized-h5md-nomad-elements-for-particles-group), in which case `value` will have dimensions `[N_frames][N_part][M]`.
+
+A list of standardized configurational observables can be found [HERE](../references/standard_observables/configurational.md).
+
 
 `ensemble_average`
-:   An observable that is computed by averaging over multiple configurations. The structure is given by:
+:   An observable that is computed by averaging over multiple configurations, with the following generic structure:
 
     observables
      \-- <ensemble_average_subgroup>
@@ -72,7 +76,7 @@ The following observable types are supported:
      \-- ...
 
 * `label`
-:   describes the particles involved in determining the property.
+:   describes the particles involved in determining the property. For example, for a radial distribution function between particles of type `A` and `B`, `label` might be set to `A-B`
 
 * `n_variables`
 :   dimensionality of the observable. Can also be infered from leading dimension of `bins`.
@@ -99,7 +103,7 @@ The following observable types are supported:
 :   number of bins over which the running average was computed for `value`.
 
 * `type`
-:   describes if the observable is calculated at the molecular or atomic level.
+:   Allowed values of `molecular` or `atomic`. Categorizes if the observable is calculated at the molecular or atomic level.
 <!-- TODO - not sure if this is useful -->
 
 * `error_type`
@@ -115,5 +119,57 @@ The following observable types are supported:
 :   additional metadata may be given as necessary.
 <!-- TODO - Is this really parsed?! -->
 
+A list of standardized ensemble average observables can be found [HERE](../references/standard_observables/ensemble_average.md).
+
 `time_correlation`
-:   An obervable that is computed by calculating correlations between configurations in time.
+:   An obervable that is computed by calculating correlations between configurations in time, with the following general structure:
+
+    observables
+     \-- <time_correlation_subgroup>
+     |    +-- type: "time_correlation"
+     |    \-- (label): String[]
+     |    \-- (direction): String[]
+     |    \-- (n_times): Integer[]
+     |    \-- times: Float[n_times][]
+     |    \-- value: <type>[n_bins][]
+     |    \-- (type): String[]
+     |    \-- (error_type): String[]
+     |    \-- (errors): Float[n_bins]
+     |    \-- (error_labels): String[]
+     |    \-- (<custom_dataset>): <type>[]
+     \-- ...
+
+* `label`
+:   describes the particles involved in determining the property. For example, for a radial distribution function between particles of type `A` and `B`, `label` might be set to `A-B`
+
+* `direction`
+:   allowed values of `x`, `y`, `z`, `xy`, `yz`, `xz`, `xyz`. The direction/s used for calculating the correlation function.
+
+* `n_times`
+:   number of times windows for the calculation of the correlation function. Can also be infered from dimensions of `times`.
+
+* `times`
+:   time values used for calculating the correlation function (i.e., &Delta;t values).
+
+* `value`
+:   value of the calculated correlation function at each time.
+
+* `type`
+:   Allowed values of `molecular` or `atomic`. Categorizes if the observable is calculated at the molecular or atomic level.
+<!-- TODO - not sure if this is useful -->
+
+* `error_type`
+:   describes the type of error reported for this observable. Examples: `Pearson correlation coefficient`, `mean squared error`.
+
+* `errors`
+:   value of the error at each bin. Can be multidimensional with corresponding label stored in `error_labels`.
+
+* `error_labels`
+:   describes the error along individual dimensions for multi-D errors.
+
+* `<custom_dataset>`
+:   additional metadata may be given as necessary.
+<!-- TODO - Is this really parsed?! -->
+
+A list of standardized configurational observables can be found [HERE](../references/standard_observables/time_correlation.md).
+

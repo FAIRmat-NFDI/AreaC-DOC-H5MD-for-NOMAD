@@ -15,6 +15,10 @@ nav:
   - References:
     - Quick Start - H5MD basics: references/quick_H5MD_basics.md
     - Notable changes from H5MD to H5MD-NOMAD: references/unsupported.md
+    - Standardized observables:
+      - Configurational: references/standard_observables/configurational.md
+      - Ensemble Average: references/standard_observables/ensemble_average.md
+      - Time Correlation: references/standard_observables/time_correlation.md
 theme:
   name: material
   palette:
