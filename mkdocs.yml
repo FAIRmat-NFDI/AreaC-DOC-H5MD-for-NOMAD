@@ -10,7 +10,10 @@ nav:
     - Particles: file_structure/particles.md
     - Observables: file_structure/observables.md
     - Connectivity: file_structure/connectivity.md
-    - Parameters: file_structure/parameters.md
+    - Parameters:
+      - General Structure: file_structure/parameters/parameters.md
+      - Force Calculations: file_structure/parameters/force_calculations.md
+      - Workflow: file_structure/parameters/workflow.md
   - Units: units.md
   - References:
     - Quick Start - H5MD basics: references/quick_H5MD_basics.md
