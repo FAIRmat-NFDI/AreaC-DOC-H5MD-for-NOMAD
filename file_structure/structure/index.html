@@ -1,0 +1,1143 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="NOMAD documentation describing how to adapt the H5MD schema for storing molecular dynamics data into a format suitable for upload to NOMAD.
+">
+      
+      
+        <meta name="author" content="FAIRmat consortium">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
+    
+    
+      
+        <title>Structure - H5MD for NOMAD Schema</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Titillium Web";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#2A4CDF" data-md-color-accent="#008A67">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#h5md-root-level" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="H5MD for NOMAD Schema" class="md-header__button md-logo" aria-label="H5MD for NOMAD Schema" data-md-component="logo">
+      
+  <img src="../../assets/nomad-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            H5MD for NOMAD Schema
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Structure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="H5MD for NOMAD Schema" class="md-nav__button md-logo" aria-label="H5MD for NOMAD Schema" data-md-component="logo">
+      
+  <img src="../../assets/nomad-logo.png" alt="logo">
+
+    </a>
+    H5MD for NOMAD Schema
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Structure
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Structure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../root/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Root
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../h5md/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    H5MD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../particles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Particles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Observables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connectivity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connectivity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Parameters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Parameters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/parameters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/force_calculations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Force Calculations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../units/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Units
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    References
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            References
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/quick_H5MD_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start - H5MD basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/unsupported/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notable changes from H5MD to H5MD-NOMAD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Standardized observables
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Standardized observables
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/configurational/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configurational
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/ensemble_average/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ensemble Average
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/time_correlation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time Correlation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#h5md-root-level" class="md-nav__link">
+    H5MD root level
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#h5md-metadata" class="md-nav__link">
+    H5MD metadata
+  </a>
+  
+    <nav class="md-nav" aria-label="H5MD metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modules" class="md-nav__link">
+    Modules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#particles-group" class="md-nav__link">
+    Particles group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulation-box" class="md-nav__link">
+    Simulation box
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observables-group" class="md-nav__link">
+    Observables group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connectivity-group" class="md-nav__link">
+    Connectivity group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters-group" class="md-nav__link">
+    Parameters group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Structure</h1>
+
+<h2 id="h5md-root-level">H5MD root level<a class="headerlink" href="#h5md-root-level" title="Permanent link">&para;</a></h2>
+<p>The root level of an H5MD structure holds a number of groups and is organized
+as follows:</p>
+<div class="highlight"><pre><span></span><code>H5MD root
+ \-- h5md
+ \-- (particles)
+ \-- (observables)
+ \-- (connectivity)
+ \-- (parameters)
+</code></pre></div>
+<p><code>h5md</code>
+:   A group that contains metadata and information on the H5MD structure
+    itself. It is the only mandatory group at the root level of H5MD.</p>
+<p><code>particles</code>
+:   An optional group that contains information on each particle in the system,
+    e.g., a snapshot of the positions or the full trajectory in phase space.
+    The size of the stored data scales linearly with the number of particles
+    under consideration.</p>
+<p><code>observables</code>
+:   An optional group that contains other quantities of interest, e.g.,
+    physical observables that are derived from the system state at given points
+    in time. The size of stored data is typically independent of the system
+    size.</p>
+<p><code>connectivity</code>
+:   An optional group that contains the connectivity between particles.</p>
+<p><code>parameters</code>
+:   An optional group that contains application-specific, custom data such as
+    control parameters or simulation scripts.</p>
+<p>In subsequent sections, the examples of HDF5 organization may start at the
+group level, omitting the display of <code>H5MD root</code>.</p>
+<h2 id="h5md-metadata">H5MD metadata<a class="headerlink" href="#h5md-metadata" title="Permanent link">&para;</a></h2>
+<p>A set of global metadata describing the H5MD structure is stored in the <code>h5md</code>
+group as attributes. The contents of the group is:</p>
+<div class="highlight"><pre><span></span><code>h5md
+ +-- version: Integer[2]
+ \-- author
+ |    +-- name: String[]
+ |    +-- (email: String[])
+ \-- creator
+      +-- name: String[]
+      +-- version: String[]
+</code></pre></div>
+<p><code>version</code>
+:   An attribute, of <code>Integer</code> datatype and of simple dataspace of rank 1 and
+    size 2, that contains the major version number and the minor version number
+    of the H5MD specification the H5MD structure conforms to.</p>
+<div class="highlight"><pre><span></span><code>The version *x.y.z* of the H5MD specification follows
+[semantic versioning][semver] [@semantic_versioning]: A change of the major
+version number *x* indicates backwards-incompatible changes to the file
+structure. A change of the minor version number *y* indicates
+backwards-compatible changes to the file structure. A change of the patch
+version number *z* indicates changes that have no effect on the file
+structure and serves to allow for clarifications or minor text editing of
+the specification.
+
+As the *z* component has no impact on the content of a H5MD file, the
+`version` attribute contains only *x* and *y*.
+</code></pre></div>
+<p><code>author</code>
+:   A group that contains metadata on the person responsible for the simulation
+    (or the experiment) as follows:</p>
+<div class="highlight"><pre><span></span><code>`name`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that holds the author&#39;s real name.
+
+`email`
+:   An optional attribute, of fixed-length string datatype and
+    of scalar dataspace, that holds the author&#39;s email address of
+    the form `email@domain.tld`.
+</code></pre></div>
+<p><code>creator</code>
+:   A group that contains metadata on the program that created the H5MD
+    structure as follows:</p>
+<div class="highlight"><pre><span></span><code>`name`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that stores the name of the program.
+
+`version`
+:   An attribute, of fixed-length string datatype and of scalar
+    dataspace, that yields the version of the program.
+</code></pre></div>
+<h3 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h3>
+<p>The H5MD specification can be complemented by modules specific to a
+domain of research.  A module may define additional data elements within the
+H5MD structure, add conditions that the data must satisfy, or define rules for
+their semantic interpretation. Multiple modules may be present, as long as
+their prescriptions are not contradictory. Each module is identified by a name
+and a version number.</p>
+<p>The modules that apply to a specific H5MD structure are stored as subgroups
+within the group <code>h5md/modules</code>. Each module holds its version number as an
+attribute, further module-specific information may be stored:</p>
+<div class="highlight"><pre><span></span><code>h5md
+ \-- (modules)
+      \-- &lt;module1&gt;
+      |    +-- version: Integer[2]
+      \-- &lt;module2&gt;
+      |    +-- version: Integer[2]
+      \-- ...
+</code></pre></div>
+<p><code>version</code>
+:   An attribute, of <code>Integer</code> datatype and of simple dataspace of rank 1 and
+    size 2, that contains the major version number and the minor version number
+    of the module.</p>
+<div class="highlight"><pre><span></span><code>The version *x.y.z* of an H5MD module follows [semantic versioning][semver]
+[@semantic_versioning] and again only the components *x* and *y* are
+stored, see `h5md/version` in &quot;[H5MD metadata].&quot;
+</code></pre></div>
+<h2 id="particles-group">Particles group<a class="headerlink" href="#particles-group" title="Permanent link">&para;</a></h2>
+<p>Information on each particle, i.e., particle trajectories, is stored in the
+<code>particles</code> group. The <code>particles</code> group is a container for subgroups that
+represent different subsets of the system under consideration, and it may hold
+one or several subgroups, as needed. These subsets may overlap and their union
+may be incomplete, i.e., not represent all particles of the simulation volume.
+The subgroups contain the trajectory data for each particle as time-dependent
+or time-independent data, depending on the situation. Each subgroup contains a
+specification of the simulation box, see below. For each dataset, the particle
+index is accommodated by the second (first, in the case of time-independence)
+array dimension.</p>
+<p>The contents of the <code>particles</code> group assuming <code>N</code> particles in <code>D</code>-dimensional
+space could be the following:</p>
+<div class="highlight"><pre><span></span><code>particles
+ \-- &lt;group1&gt;
+      \-- box
+      \-- (position)
+      |    \-- step: Integer[variable]
+      |    \-- time: Float[variable]
+      |    \-- value: &lt;type&gt;[variable][N][D]
+      \-- (image)
+      |    \-- step: Integer[variable]
+      |    \-- time: Float[variable]
+      |    \-- value: &lt;type&gt;[variable][N][D]
+      \-- (species: Enumeration[N])
+      \-- ...
+</code></pre></div>
+<p>The following identifiers for H5MD elements are standardized:</p>
+<p><code>position</code>
+:   An element that describes the particle positions as coordinate vectors of
+    <code>Float</code> or <code>Integer</code> type.</p>
+<div class="highlight"><pre><span></span><code>If the component $k$ of `box/boundary` (see [below](#simulation-box)) is set
+to `none`, the data indicate for each particle the component $k$ of its
+absolute position in space. If the component $k$ of `box/boundary` is set to
+`periodic`, the data indicate for each particle the component $k$ of the
+absolute position in space of an *arbitrary* periodic image of that particle.
+</code></pre></div>
+<p><code>image</code>
+:   An element that represents periodic images of the box as coordinate vectors
+    of <code>Float</code> or <code>Integer</code> type and allows one to compute for each particle its
+    absolute position in space. If <code>image</code> is present, <code>position</code> must be
+    present as well. For time-dependent data, the <code>step</code> and <code>time</code> datasets of
+    <code>image</code> must equal those of <code>position</code>, which must be accomplished by
+    hard-linking the respective datasets.</p>
+<div class="highlight"><pre><span></span><code>If the component $k$ of `box/boundary` (see [below](#simulation-box)) is set
+to `none`, the values of the corresponding component $k$ of `image` serve as
+placeholders. If the component $k$ of `box/boundary` is set to `periodic`,
+for a cuboid box, the component $k$ of the absolute position of particle $i$
+is computed as $R_{ik} = r_{ik} + L_k a_{ik}$, where $\vec r_i$ is taken
+from `position`, $\vec a_i$ is taken from `image`, and $\vec L$ from
+`box/edges`.
+</code></pre></div>
+<p><code>velocity</code>
+:   An element that contains the velocities for each particle as a vector of
+    <code>Float</code> or <code>Integer</code> type.</p>
+<p><code>force</code>
+:   An element that contains the total forces (i.e., the accelerations
+    multiplied by the particle mass) for each particle as a vector of <code>Float</code>
+    or <code>Integer</code> type.</p>
+<p><code>mass</code>
+:   An element that holds the mass for each particle as a scalar of <code>Float</code>
+    type.</p>
+<p><code>species</code>
+:   An element that describes the species for each particle, i.e., its
+    atomic or chemical identity, as a scalar of <code>Enumeration</code> or <code>Integer</code>
+    data type. Particles of the same species are assumed to be identical with
+    respect to their properties and unbonded interactions.</p>
+<p><code>id</code>
+:   An element that holds a scalar identifier for each particle of <code>Integer</code>
+    type, which is unique within the given particle subgroup. The <code>id</code> serves
+    to identify particles over the course of the simulation in the case when
+    the order of the particles changes, or when new particles are inserted and
+    removed. If <code>id</code> is absent, the identity of the particles is given by their
+    index in the <code>value</code> datasets of the elements within the same subgroup.</p>
+<div class="highlight"><pre><span></span><code>A *fill value* (see
+[§ 6.6](http://www.hdfgroup.org/HDF5/doc/UG/11_Datatypes.html#Fvalues) in
+[@HDF5_users_guide]) may be defined for `id/value` upon dataset creation.
+When the identifier of a particle is equal to this user-defined value,
+the particle is considered non-existing, the entry serves as a
+placeholder. This permits the storage of subsystems whose number of
+particles varies in time. For the case of varying particle number, the
+dimension denoted by `[N]` above may be variable.
+</code></pre></div>
+<p><code>charge</code>
+:   An element that contains the charge associated to each particle as a
+    scalar, of <code>Integer</code> or <code>Float</code> type.</p>
+<div class="highlight"><pre><span></span><code>`charge` has the optional attribute `type` of fixed-length string datatype
+and of scalar dataspace, possible values are `effective` and `formal`. In
+the case `effective`, the charge is part of an effective description of the
+interactions with the precise meaning depending on the underlying empirical
+force fields or coarse-grained models.
+
+In the case `formal`, the charge is the so-called &quot;formal charge&quot; assigned
+to an atom (see &lt;http://en.wikipedia.org/wiki/Formal_charge&gt;) and must be
+of `Integer` type. This case corresponds to the entries in PDB files (see
+definition in the PDBx/mmCIF dictionary
+&lt;http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v40.dic/Items/_atom_site.pdbx_formal_charge.html&gt;).
+
+If none of `effective` or `formal` describes the data properly, the
+attribute `type` may be omitted.
+</code></pre></div>
+<h2 id="simulation-box">Simulation box<a class="headerlink" href="#simulation-box" title="Permanent link">&para;</a></h2>
+<p>The specification of the simulation box is stored in the group <code>box</code>, which
+must be contained within each of the subgroups of the <code>particles</code> group.
+Storing the box information at several places reflects the fact that different
+subgroups may be sampled at different time grids. This way, the box information
+remains associated to a group of particles.  A specific requirement for <code>box</code>
+groups inside <code>particles</code> is that the <code>step</code> and <code>time</code> datasets exactly match
+those of the corresponding <code>position</code> groups, which must be accomplished by
+hard-linking the respective datasets.</p>
+<p>The spatial dimension and the boundary conditions of the box are stored as
+attributes to the <code>box</code> group, e.g., :</p>
+<div class="highlight"><pre><span></span><code>particles
+ \-- &lt;group1&gt;
+      \-- box
+           +-- dimension: Integer[]
+           +-- boundary: String[D]
+           \-- (edges)
+</code></pre></div>
+<p><code>dimension</code>
+:   An attribute that stores the spatial dimension <code>D</code> of the simulation box
+    and is of <code>Integer</code> datatype and scalar dataspace.</p>
+<p><code>boundary</code>
+:   An attribute, of fixed-length string datatype and of simple dataspace of
+    rank 1 and size <code>D</code>, that specifies the boundary condition of the box along
+    each dimension. The values in <code>boundary</code> are either <code>periodic</code> or <code>none</code>:</p>
+<div class="highlight"><pre><span></span><code>`periodic` The simulation box is periodically continued along the given
+dimension and serves as the unit cell for an infinite tiling of space.
+
+`none` No boundary condition is imposed. This summarizes the situations of
+open systems (i.e., an infinitely large box) and closed systems (e.g., due
+to an impenetrable wall). For those components where `boundary` is set to
+`none`, the corresponding values of `edges` serve as placeholders.
+</code></pre></div>
+<p>Information on the geometry of the box edges is stored as an H5MD element,
+allowing for the box to be fixed in time or not.  Supported box shapes are the
+cuboid and triclinic unit cell, for other shapes a transformation to the
+triclinic shape may be considered [@Bekker:1997]. If all values in <code>boundary</code>
+are <code>none</code>, <code>edges</code> may be omitted.</p>
+<p><code>edges</code>
+:   A <code>D</code>-dimensional vector or a <code>D</code> × <code>D</code> matrix, depending on the geometry
+    of the box, of <code>Float</code> or <code>Integer</code> type. If <code>edges</code> is a vector, it
+    specifies the space diagonal of a cuboid-shaped box. If <code>edges</code> is a
+    matrix, the box is of triclinic shape with the edge vectors given by the
+    rows of the matrix.</p>
+<div class="highlight"><pre><span></span><code>For a time-dependent box, a cuboid geometry is encoded by a dataset `value`
+(within the H5MD element) of rank 2 (1 dimension for the time and 1 for the
+vector) and a triclinic geometry by a dataset `value` of rank 3 (1
+dimension for the time and 2 for the matrix).
+
+For a time-independent box, a cuboid geometry is encoded by a dataset
+`edges` of rank 1 and a triclinic geometry by a dataset of rank 2.
+</code></pre></div>
+<p>For instance, a cuboid box that changes in time would appear as:</p>
+<div class="highlight"><pre><span></span><code>particles
+ \-- &lt;group1&gt;
+      \-- box
+           +-- dimension: Integer[]
+           +-- boundary: String[D]
+           \-- edges
+                \-- step: Integer[variable]
+                \-- time: Float[variable]
+                \-- value: &lt;type&gt;[variable][D]
+</code></pre></div>
+<p>where <code>dimension</code> is equal to <code>D</code>. A triclinic box that is fixed in time would
+appear as:</p>
+<div class="highlight"><pre><span></span><code>particles
+ \-- &lt;group1&gt;
+      \-- box
+           +-- dimension: Integer[]
+           +-- boundary: String[D]
+           \-- edges: &lt;type&gt;[D][D]
+</code></pre></div>
+<p>where <code>dimension</code> is equal to <code>D</code>.</p>
+<h2 id="observables-group">Observables group<a class="headerlink" href="#observables-group" title="Permanent link">&para;</a></h2>
+<p>Macroscopic observables, or more generally, averages of some property over many
+particles, are stored in the root group <code>observables</code>. Observables representing
+only a subset of the particles may be stored in appropriate subgroups similarly
+to the <code>particles</code> tree. Each observable is stored as an H5MD element. The
+shape of the corresponding dataset (the element itself for time-independent data
+and <code>value</code> for time-dependent data) is the tensor shape of the observable,
+prepended by a <code>[variable]</code> dimension for time-dependent data.</p>
+<p>The contents of the observables group has the following structure:</p>
+<div class="highlight"><pre><span></span><code>observables
+ \-- &lt;observable1&gt;
+ |    \-- step: Integer[variable]
+ |    \-- time: Float[variable]
+ |    \-- value: &lt;type&gt;[variable]
+ \-- &lt;observable2&gt;
+ |    \-- step: Integer[variable]
+ |    \-- time: Float[variable]
+ |    \-- value: &lt;type&gt;[variable][D]
+ \-- &lt;group1&gt;
+ |    \-- &lt;observable3&gt;
+ |         \-- step: Integer[variable]
+ |         \-- time: Float[variable]
+ |         \-- value: &lt;type&gt;[variable][D][D]
+ \-- &lt;observable4&gt;: &lt;type&gt;[]
+ \-- ...
+</code></pre></div>
+<h2 id="connectivity-group">Connectivity group<a class="headerlink" href="#connectivity-group" title="Permanent link">&para;</a></h2>
+<p>The connectivity information is stored as tuples in the group
+<code>/connectivity</code>. The tuples are pairs, triples, etc. as needed and may be either
+time-independent or time-dependent.
+Several connectivity elements may be defined for any particles group.
+A connectivity element may only refer to a single particle group.</p>
+<p>The tuples of particles are interpreted according to the section
+<a href="#storage-of-particles-and-tuples-lists">Storage of particles and tuples lists</a>.</p>
+<h2 id="parameters-group">Parameters group<a class="headerlink" href="#parameters-group" title="Permanent link">&para;</a></h2>
+<p>The <code>parameters</code> group stores application-specific, custom data such as control
+parameters or simulation scripts. The group consists of groups, datasets, and
+attributes; the detailed structure, however, is left unspecified.</p>
+<p>The contents of the <code>parameters</code> group could be the following:</p>
+<div class="highlight"><pre><span></span><code>parameters
+ +-- &lt;user_attribute1&gt;
+ \-- &lt;user_data1&gt;
+ \-- &lt;user_group1&gt;
+ |    \-- &lt;user_data2&gt;
+ |    \-- ...
+ \-- ...
+</code></pre></div>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

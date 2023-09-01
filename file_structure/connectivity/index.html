@@ -1,0 +1,905 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="NOMAD documentation describing how to adapt the H5MD schema for storing molecular dynamics data into a format suitable for upload to NOMAD.
+">
+      
+      
+        <meta name="author" content="FAIRmat consortium">
+      
+      
+      
+        <link rel="prev" href="../observables/">
+      
+      
+        <link rel="next" href="../parameters/parameters/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
+    
+    
+      
+        <title>Connectivity - H5MD for NOMAD Schema</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Titillium Web";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#2A4CDF" data-md-color-accent="#008A67">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-connectivity-group" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="H5MD for NOMAD Schema" class="md-header__button md-logo" aria-label="H5MD for NOMAD Schema" data-md-component="logo">
+      
+  <img src="../../assets/nomad-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            H5MD for NOMAD Schema
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Connectivity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="H5MD for NOMAD Schema" class="md-nav__button md-logo" aria-label="H5MD for NOMAD Schema" data-md-component="logo">
+      
+  <img src="../../assets/nomad-logo.png" alt="logo">
+
+    </a>
+    H5MD for NOMAD Schema
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Structure
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Structure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../root/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Root
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../h5md/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    H5MD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../particles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Particles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Observables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Connectivity
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Connectivity
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#standardized-h5md-nomad-connectivity" class="md-nav__link">
+    Standardized H5MD-NOMAD connectivity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-particles_group-subgroup" class="md-nav__link">
+    The particles_group subgroup
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Parameters
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Parameters
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/parameters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/force_calculations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Force Calculations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../units/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Units
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    References
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            References
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/quick_H5MD_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick Start - H5MD basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/unsupported/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notable changes from H5MD to H5MD-NOMAD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Standardized observables
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Standardized observables
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/configurational/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configurational
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/ensemble_average/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ensemble Average
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/standard_observables/time_correlation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time Correlation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#standardized-h5md-nomad-connectivity" class="md-nav__link">
+    Standardized H5MD-NOMAD connectivity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-particles_group-subgroup" class="md-nav__link">
+    The particles_group subgroup
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="the-connectivity-group">The connectivity group<a class="headerlink" href="#the-connectivity-group" title="Permanent link">&para;</a></h1>
+<p>The initial H5MD proposed a simple and flexible schema for the storage of "connectivity" information, e.g., to be used in conjunction with a molecular mechanics force field.
+The connectivity information is stored as tuples in the group
+<code>/connectivity</code>. The tuples are pairs, triples, etc. as needed and may be either
+time-independent or time-dependent.
+As with other elements, connectivity elements can be defined for particular particle groups. However, H5MD-NOMAD focuses on the storage of connectivity elements for the entire system (i.e., the <code>all</code> particles group).</p>
+<h2 id="standardized-h5md-nomad-connectivity">Standardized H5MD-NOMAD connectivity<a class="headerlink" href="#standardized-h5md-nomad-connectivity" title="Permanent link">&para;</a></h2>
+<p>The general structure of the <code>connectivity</code> group is as follows:</p>
+<div class="highlight"><pre><span></span><code>connectivity
+ \-- (bonds): Integer[N_part][2]
+ \-- (angles): Integer[N_part][3]
+ \-- (dihedrals): Integer[N_part][4]
+ \-- (impropers): Integer[N_part][4]
+ \-- (&lt;custom_interaction&gt;): Integer[N_part][m]
+ \-- (particles_group)
+      \-- ...
+</code></pre></div>
+<p><code>N_part</code> corresponds to the number of particles stored in the <code>particles/all</code> group.</p>
+<ul>
+<li>
+<p><code>bonds</code>
+: a list of 2-tuples specifying the indices of particles containing a "bond interaction".</p>
+</li>
+<li>
+<p><code>angles</code>
+: a list of 3-tuples specifying the indices of particles containing an "angle interaction".</p>
+</li>
+<li>
+<p><code>dihedrals</code>
+: a list of 4-tuples specifying the indices of particles containing a "dihedral interaction".</p>
+</li>
+<li>
+<p><code>impropers</code>
+: a list of 4-tuples specifying the indices of particles containing an "improper dihedral interaction".</p>
+</li>
+<li>
+<p><code>&lt;custom_interaction&gt;</code>
+: a list of m-tuples specifying the indices of particles containing an arbitrary interaction. <code>m</code> denotes the number of particles involved in the interaction.</p>
+</li>
+<li>
+<p><code>particles_group</code>
+: See below.</p>
+</li>
+</ul>
+<p><a id="connectivity_support_anchor"></a>
+<strong>Currently only time-independent connectivity elements are supported.</strong></p>
+<h2 id="the-particles_group-subgroup">The particles_group subgroup<a class="headerlink" href="#the-particles_group-subgroup" title="Permanent link">&para;</a></h2>
+<p>Despite not fully utilizing the organization of arbitrary groups of particles within the <code>particles</code> group, H5MD-NOMAD allows for the user to provide an arbitrary hierarchy of particle groupings, also refered to as a "topology", within the <code>connectivity</code> subgroup called <code>particles_group</code>. This information will be used by NOMAD to facilitate visualizations of the system, through the "topology bar" in the overview page. The general structure of the topology group is as follows:</p>
+<div class="highlight"><pre><span></span><code>connectivity
+ \-- particles_group
+      \-- &lt;group_1&gt;
+      |    \-- (type): String[]
+      |    \-- (formula): String[]
+      |    \-- indices: Integer[]
+      |    \-- (is_molecule): Bool
+ |    |    \-- (&lt;custom_dataset&gt;): &lt;type&gt;[]
+      |    \-- (particles_group):
+      |        \-- ...
+      \-- &lt;group_2&gt;
+          \-- ...
+</code></pre></div>
+<p>The initial <code>particles_group</code> subgroup, directly under <code>connectivity</code>, is a container for the entire topology. <code>particles_group</code> contains a series of subgroups with arbitrary names, which denote the first level of organization within the topology. The name of each subgroup will become the group label within the NOMAD metadata. Each of these subgroups then contain a series of datasets:</p>
+<ul>
+<li>
+<p><code>type</code>
+: describes the type of particle group. There exist a list of standardized types: <code>molecule_group</code>, <code>molecule</code>, <code>monomer_group</code>, <code>monomer</code>. However, arbitrary types can be given. We suggest that you 1. use the standardized types when appropriate (note that protein residues should be generically typed as <code>monomer</code>) and 2. use the general format <code>&lt;type&gt;_group</code> for groups of a distinct type (see further description of suggested hierarchy below).</p>
+</li>
+<li>
+<p><code>formula</code>
+: a "chemical-like" formula that describes the particle group with respect to its underlying components. The format for the formula is <code>&lt;child_1&gt;(n_child_1)&lt;child_2&gt;(n_child_2)...</code>, where <code>&lt;child_x&gt;</code> is the name/label of the underlying component, and <code>n_child_x</code> is the number of such components found within this particle group. Example: A particles group containing 100 water molecules named <code>water</code> has the formula <code>water(100)</code>, whereas each underlying water molecule has the standard chemical formula <code>H2O</code>.</p>
+</li>
+<li>
+<p><code>indices</code>
+: a list of integer indices corresponding to all particles belonging to this group. Indices should correspond to the list of particles stored in the <code>particles/all</code> group.</p>
+</li>
+<li>
+<p><code>is_molecule</code>
+: indicator of individual molecules (typically with respect to the bond connections defined by a force field).</p>
+</li>
+<li>
+<p><code>custom_dataset</code>
+: arbitrary additional metadata for this particle group may be given.</p>
+</li>
+</ul>
+<p>Each subgroup may also contain a (nested) <code>particles_group</code> subgroup, in order to subdivide the group of particles into a organizational hierarchy. As with the overall <code>particles_group</code> container, the groups contained within <code>particles_group</code> must not <em>partition</em> the particles within this group (i.e., overlapping or non-complete grouping are allowed). However, particle groups <em>must</em> contain particles already contained within the parent <code>particles_group</code> (i.e., subgroups must be a subset of the grouping at the previous level of the hierarchy).</p>
+<p>Note that typically the <code>particles_group</code> hierarchy ends at the level of individual particles (i.e., individual particles are not stored, since this information is already contained within the <code>particles</code> group).</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>
